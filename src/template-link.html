@@ -3,217 +3,379 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Verbinding maken...</title>
+    <title>Verbinding controleren...</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400&display=swap" rel="stylesheet" />
 
     <style>
       :root {
-        --bg-color: #020617;
-        --card-bg: rgba(15, 23, 42, 0.75);
-        --accent-1: #3b82f6;
-        --accent-2: #8b5cf6;
-        --accent-3: #ec4899;
+        --bg-dark: #030712;
+        --card-bg: rgba(17, 24, 39, 0.8);
+        --text-primary: #f9fafb;
+        --text-secondary: #9ca3af;
+        --accent-blue: #3b82f6;
+        --accent-purple: #8b5cf6;
       }
 
       body {
-        background-color: var(--bg-color);
-        color: #f8fafc;
-        font-family: "Plus Jakarta Sans", sans-serif;
-        margin: 0;
+        background-color: var(--bg-dark);
+        color: var(--text-primary);
+        font-family: "Inter", sans-serif;
         display: flex;
         align-items: center;
         justify-content: center;
         min-height: 100vh;
-        padding: 1.5rem;
-        overflow: hidden;
+        margin: 0;
+        /* Scrollen toestaan als de content te hoog is */
+        overflow-y: auto;
+        padding: 2rem 1rem;
       }
 
-      .mesh-gradient {
+      /* Geanimeerde achtergrond */
+      .bg-glow {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         z-index: -1;
-        background: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.2) 0px, transparent 55%), radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.2) 0px, transparent 55%), radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 55%), radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.15) 0px, transparent 55%);
-        animation: mesh-move 12s infinite alternate ease-in-out;
+        background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.15) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(139, 92, 246, 0.15) 0%, transparent 40%);
       }
 
-      @keyframes mesh-move {
-        0% {
-          transform: scale(1) rotate(0deg);
-        }
-        50% {
-          transform: scale(1.1) rotate(2deg);
-        }
-        100% {
-          transform: scale(1) rotate(0deg);
-        }
-      }
-
-      .glass-card {
+      .glass-container {
         background: var(--card-bg);
-        backdrop-filter: blur(30px) saturate(190%);
-        -webkit-backdrop-filter: blur(30px) saturate(190%);
+        backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.6);
+        border-radius: 2.5rem;
+        padding: 2.5rem;
         width: 100%;
-        max-width: 440px;
-        padding: 3.5rem 2rem;
-        border-radius: 3rem;
-        text-align: center;
-        position: relative;
-        z-index: 10;
-        animation: card-appear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        max-width: 520px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        animation: fadeIn 0.6s ease-out;
+        margin: auto; /* Zorgt voor centrering bij scrollen */
       }
 
-      @keyframes card-appear {
+      @keyframes fadeIn {
         from {
           opacity: 0;
-          transform: translateY(20px) scale(0.95);
+          transform: translateY(20px);
         }
         to {
           opacity: 1;
-          transform: translateY(0) scale(1);
+          transform: translateY(0);
         }
       }
 
-      .domain-text {
-        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
-        background-size: 200% auto;
+      .url-display {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 1.5rem;
+        padding: 1.75rem;
+        margin: 1.5rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.5rem;
+      }
+
+      .protocol-tag {
+        font-size: 0.7rem;
+        font-weight: 800;
+        padding: 0.35rem 1rem;
+        border-radius: 9999px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .protocol-secure {
+        background: rgba(16, 185, 129, 0.15);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+
+      .protocol-unsecure {
+        background: rgba(239, 68, 68, 0.15);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+
+      .domain-large {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        line-height: 1.2;
+        background: linear-gradient(to right, #60a5fa, #a78bfa);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: shine 3s linear infinite;
-        filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.3));
-        word-wrap: break-word;
-        display: block;
+        word-break: break-all;
       }
 
-      @keyframes shine {
-        to {
-          background-position: 200% center;
-        }
+      .full-url {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        word-break: break-all;
+        max-width: 100%;
+        opacity: 0.8;
       }
 
-      .progress-container {
-        background: rgba(0, 0, 0, 0.4);
-        height: 10px;
-        border-radius: 12px;
-        overflow: hidden;
+      .countdown-display {
+        font-family: "Fira Code", monospace;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--accent-blue);
+        margin-top: 0.25rem;
+      }
+
+      .info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: 1rem;
+        text-align: left;
+      }
+
+      .info-card {
+        background: rgba(255, 255, 255, 0.03);
+        padding: 0.75rem;
+        border-radius: 0.75rem;
         border: 1px solid rgba(255, 255, 255, 0.05);
       }
 
-      .progress-fill {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
-        transition: width 0.1s linear;
+      .progress-rail {
+        width: 100%;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 999px;
+        overflow: hidden;
+        margin: 1.5rem 0 0.5rem 0;
       }
 
-      #error-state {
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+        box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+      }
+
+      .btn-primary {
+        background: white;
+        color: #030712;
+        padding: 1rem;
+        border-radius: 1.25rem;
+        font-weight: 800;
+        width: 100%;
+        display: block;
+        text-align: center;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+        margin-top: 1.5rem;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        background: #f3f4f6;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text-secondary);
+        padding: 0.75rem;
+        border-radius: 1.25rem;
+        font-weight: 600;
+        width: 100%;
+        display: block;
+        text-align: center;
+        transition: all 0.2s;
+        margin-top: 0.75rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--text-primary);
+      }
+
+      #error-ui {
         display: none;
+      }
+
+      .safety-tip {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background: rgba(59, 130, 246, 0.05);
+        border-left: 3px solid var(--accent-blue);
+        border-radius: 0.5rem;
+        text-align: left;
       }
     </style>
   </head>
   <body>
-    <div class="mesh-gradient"></div>
+    <div class="bg-glow"></div>
 
-    <div id="redirect-state" class="glass-card">
-      <div class="space-y-3 mb-8">
-        <p class="text-[11px] font-black uppercase tracking-[0.4em] text-slate-500">Bestemming</p>
-        <h2 id="target-domain" class="domain-text text-2xl font-extrabold">Laden...</h2>
-      </div>
+    <!-- Hoofd Redirect Interface -->
+    <div id="redirect-ui" class="glass-container">
+      <div class="text-center">
+        <h1 class="text-xl font-extrabold mb-1 tracking-tight">Bestemming controleren</h1>
+        <p class="text-sm text-gray-400 mb-6">Een moment geduld terwijl we de link verwerken.</p>
 
-      <div class="w-20 h-20 mx-auto mb-8 relative">
-        <div class="absolute inset-0 bg-blue-500/30 blur-2xl rounded-full"></div>
-        <div class="relative z-10 w-full h-full bg-slate-900/90 border border-white/20 rounded-[2rem] flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-          </svg>
+        <div class="url-display">
+          <div id="protocol-badge" class="protocol-tag">Controleren...</div>
+          <div id="display-hostname" class="domain-large">Laden...</div>
+          <div id="display-full-url" class="full-url">...</div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Verbinding</p>
+            <p id="info-connection" class="text-xs font-semibold text-gray-300">HTTPS / SSL</p>
+          </div>
+          <div class="info-card">
+            <p class="text-[10px] text-gray-500 uppercase font-bold tracking-wider mb-1">Tijd tot actie</p>
+            <div id="countdown" class="countdown-display">4.50s</div>
+          </div>
+        </div>
+
+        <div class="progress-rail">
+          <div id="progress-bar" class="progress-bar"></div>
+        </div>
+        <div class="flex justify-between items-center text-[10px] font-black uppercase tracking-widest text-gray-500 px-1">
+          <span id="status-text">Analyseren...</span>
+          <span id="percent-text">0%</span>
+        </div>
+
+        <div class="safety-tip">
+          <div class="flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <p class="text-xs font-bold text-blue-100">Veiligheidstip</p>
+              <p class="text-[11px] text-blue-200/70 mt-0.5">Controleer altijd of de bovenstaande domeinnaam overeenkomt met wat je verwacht voordat je gegevens invult.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <a id="manual-link" href="#" class="btn-primary"> Direct doorsturen </a>
+          <button onclick="window.history.back()" class="btn-secondary">Annuleren & terugkeren</button>
         </div>
       </div>
-
-      <div class="mb-10 text-left">
-        <div class="flex justify-between items-end mb-4 px-1">
-          <span id="status-label" class="text-[12px] font-black text-slate-400 uppercase tracking-widest">Verbinden...</span>
-          <span id="progress-text" class="text-sm font-black text-slate-200">0%</span>
-        </div>
-        <div class="progress-container">
-          <div id="progress-bar" class="progress-fill"></div>
-        </div>
-      </div>
-
-      <a id="direct-link" href="#" class="block w-full bg-blue-600 py-5 rounded-3xl text-white font-black text-xl hover:scale-105 transition-all"> Direct doorgaan </a>
     </div>
 
-    <div id="error-state" class="glass-card">
-      <div class="w-20 h-20 bg-red-500/10 border border-red-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-red-400">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <!-- Error Interface -->
+    <div id="error-ui" class="glass-container text-center">
+      <div class="w-16 h-16 bg-red-500/10 text-red-500 rounded-3xl flex items-center justify-center mx-auto mb-4 border border-red-500/20">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
       </div>
-      <h2 class="text-2xl font-bold mb-4">Configuratie Fout</h2>
-      <p class="text-slate-400 mb-8">Er is geen geldige URL gevonden om naar door te sturen.</p>
-      <button onclick="history.back()" class="w-full py-4 bg-slate-800 rounded-2xl font-bold">Ga Terug</button>
+      <h2 class="text-xl font-bold mb-2">Ongeldige Link</h2>
+      <p class="text-sm text-gray-400 mb-6 leading-relaxed">De opgegeven URL kon niet worden verwerkt of is leeg. Controleer de bronlink.</p>
+      <button onclick="window.history.back()" class="text-blue-400 font-bold hover:text-blue-300 transition-colors text-sm">Ga terug naar de vorige pagina</button>
     </div>
 
     <script>
-      const redirectDelay = 5000;
+      // Configuratie
+      const DURATION = 4500;
       const urlParams = new URLSearchParams(window.location.search);
+      let target = urlParams.get("url");
+      let animationFrame;
 
-      const targetURL = (typeof targetConfig !== "undefined" ? targetConfig.url : null) || urlParams.get("url");
-
-      const ui = {
-        redirect: document.getElementById("redirect-state"),
-        error: document.getElementById("error-state"),
-        domain: document.getElementById("target-domain"),
-        progress: document.getElementById("progress-bar"),
-        progressText: document.getElementById("progress-text"),
-        link: document.getElementById("direct-link"),
+      // UI Elementen
+      const elements = {
+        redirect: document.getElementById("redirect-ui"),
+        error: document.getElementById("error-ui"),
+        badge: document.getElementById("protocol-badge"),
+        hostname: document.getElementById("display-hostname"),
+        fullUrl: document.getElementById("display-full-url"),
+        connectionInfo: document.getElementById("info-connection"),
+        countdown: document.getElementById("countdown"),
+        status: document.getElementById("status-text"),
+        percent: document.getElementById("percent-text"),
+        bar: document.getElementById("progress-bar"),
+        btn: document.getElementById("manual-link"),
       };
 
+      const steps = [
+        { p: 0, s: "URL scannen..." },
+        { p: 20, s: "Domein extraheren..." },
+        { p: 40, s: "Certificaat check..." },
+        { p: 65, s: "Handshake..." },
+        { p: 85, s: "Doorsturen..." },
+        { p: 100, s: "Klaar" },
+      ];
+
       function init() {
-        if (!targetURL) {
-          ui.redirect.style.display = "none";
-          ui.error.style.display = "block";
+        if (!target) {
+          elements.redirect.style.display = "none";
+          elements.error.style.display = "block";
           return;
         }
 
         try {
-          const url = new URL(targetURL);
-          ui.domain.innerText = url.hostname;
-          ui.link.href = targetURL;
+          // Zorg voor een geldig protocol als het ontbreekt
+          if (!target.match(/^[a-zA-Z]+:\/\//)) {
+            target = "https://" + target;
+          }
 
-          startAnimation();
+          const urlObj = new URL(target);
+          const isSecure = urlObj.protocol === "https:";
+
+          elements.hostname.textContent = urlObj.hostname;
+          elements.fullUrl.textContent = target;
+          elements.btn.href = target;
+
+          if (isSecure) {
+            elements.badge.textContent = "Veilig Protocol";
+            elements.badge.className = "protocol-tag protocol-secure";
+            elements.connectionInfo.textContent = "HTTPS / Gecertificeerd";
+          } else {
+            elements.badge.textContent = "Onbeveiligd";
+            elements.badge.className = "protocol-tag protocol-unsecure";
+            elements.connectionInfo.textContent = "HTTP / Geen encryptie";
+            elements.connectionInfo.classList.add("text-red-400");
+          }
+
+          startProgress();
         } catch (e) {
-          // Als het geen volledige URL is (bijv. een relatief pad), toon dan de tekst direct
-          ui.domain.innerText = targetURL;
-          ui.link.href = targetURL;
-          startAnimation();
+          console.error(e);
+          elements.redirect.style.display = "none";
+          elements.error.style.display = "block";
         }
       }
 
-      function startAnimation() {
-        let startTime = null;
+      function startProgress() {
+        let start = null;
 
-        function animate(timestamp) {
-          if (!startTime) startTime = timestamp;
-          const elapsed = timestamp - startTime;
-          const percentage = Math.min((elapsed / redirectDelay) * 100, 100);
+        function animate(now) {
+          if (!start) start = now;
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / DURATION, 1);
+          const percent = Math.floor(progress * 100);
 
-          ui.progress.style.width = percentage + "%";
-          ui.progressText.innerText = Math.floor(percentage) + "%";
+          // Countdown berekenen
+          const remaining = Math.max(0, (DURATION - elapsed) / 1000);
+          // Fixeer op 2 decimalen voor milliseconden effect
+          elements.countdown.textContent = remaining.toFixed(2) + "s";
 
-          if (elapsed < redirectDelay) {
-            requestAnimationFrame(animate);
+          elements.bar.style.width = percent + "%";
+          elements.percent.textContent = percent + "%";
+
+          const currentStep = steps.findLast((s) => percent >= s.p);
+          if (currentStep) elements.status.textContent = currentStep.s;
+
+          if (progress < 1) {
+            animationFrame = requestAnimationFrame(animate);
           } else {
-            window.location.href = targetURL;
+            setTimeout(() => {
+              window.location.href = target;
+            }, 200);
           }
         }
-        requestAnimationFrame(animate);
+        animationFrame = requestAnimationFrame(animate);
       }
 
       window.onload = init;
