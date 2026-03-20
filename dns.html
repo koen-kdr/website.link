@@ -2,10 +2,253 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url="https://mijn.host/cp/domains/koenkdr.nl/dns-settings/">
-    <title>Linkedin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Aangepaste titel voor het tabblad -->
+    <title>Je wordt doorgestuurd...</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Dynamische Favicon (Emoji) -->
+    <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --secondary: #a855f7;
+            --accent: #ec4899;
+        }
+
+        body {
+            background-color: #020617;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-y: auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Dynamische Achtergrond Blobs */
+        .blob {
+            position: fixed;
+            width: 700px;
+            height: 700px;
+            filter: blur(120px);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.2;
+            animation: pulse-bg 15s infinite alternate ease-in-out;
+        }
+
+        @keyframes pulse-bg {
+            0% { transform: scale(1) translate(-5%, -5%); }
+            100% { transform: scale(1.1) translate(5%, 5%); }
+        }
+
+        /* Glassmorphism Kaart */
+        .glass-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+            width: 100%;
+            max-width: 460px;
+            padding: 3rem 2.5rem;
+            border-radius: 3rem;
+            text-align: center;
+            position: relative;
+            margin: auto;
+        }
+
+        /* Geanimeerd Kleurverloop Tekst (Websitenaam) */
+        .text-gradient-animated {
+            background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: flow-text 4s linear infinite;
+        }
+
+        @keyframes flow-text {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Geanimeerd Icoon */
+        .icon-container {
+            animation: float 4s infinite ease-in-out;
+            position: relative;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.2)); }
+            50% { transform: translateY(-12px); filter: drop-shadow(0 0 25px rgba(59, 130, 246, 0.5)); }
+        }
+
+        /* Laadbalk Design */
+        .loader-track {
+            background: rgba(15, 23, 42, 0.8);
+            height: 14px;
+            border-radius: 99px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2px;
+            overflow: hidden;
+        }
+
+        .loader-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
+            border-radius: 99px;
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+        }
+
+        /* Pulse voor de status badge */
+        @keyframes pulse-status {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.03); opacity: 0.8; }
+        }
+        .status-pulse {
+            animation: pulse-status 2.5s infinite ease-in-out;
+        }
+
+        /* Knop Design */
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(124, 58, 237, 0.5);
+        }
+    </style>
 </head>
 <body>
-    <p>Als u niet automatisch wordt doorgestuurd, klik dan <a href="https://mijn.host/cp/domains/koenkdr.nl/dns-settings/">hier</a>.</p>
+
+    <!-- Achtergrond elementen -->
+    <div class="blob bg-blue-600" style="top: -10%; left: -10%;"></div>
+    <div class="blob bg-purple-600" style="bottom: -10%; right: -10%;"></div>
+
+    <div class="glass-card">
+        <!-- Zwevend Icoon -->
+        <div class="icon-container w-20 h-20 bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-white/10 rounded-3xl flex items-center justify-center mx-auto mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+        </div>
+
+        <h1 class="text-sm font-bold mb-1 text-slate-400 tracking-widest uppercase">Je wordt doorgestuurd naar</h1>
+        <div id="target-domain" class="text-3xl font-extrabold text-gradient-animated mb-10 truncate px-2">
+            Laden...
+        </div>
+
+        <!-- Progressie -->
+        <div class="mb-12">
+            <div class="flex justify-between text-[11px] font-black text-slate-400 mb-3 uppercase tracking-[0.2em] px-1">
+                <span class="flex items-center">
+                    <span class="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-ping"></span>
+                    Bezig met verbinden
+                </span>
+                <span id="progress-text">0%</span>
+            </div>
+            <div class="loader-track">
+                <div id="progress-bar" class="loader-bar"></div>
+            </div>
+        </div>
+
+        <!-- Acties -->
+        <div class="flex flex-col space-y-4">
+            <a id="direct-link" href="#" class="btn-primary w-full py-5 px-6 text-white rounded-[1.5rem] transition-all active:scale-95 shadow-lg">
+                <span class="block font-bold text-lg">Ga nu direct verder</span>
+                <span class="block text-xs opacity-80 font-medium mt-1">Werkt het doorsturen niet? Klik dan hier.</span>
+            </a>
+            
+            <a href="javascript:history.back()" class="w-full py-4 bg-slate-800/40 hover:bg-slate-800/60 text-slate-400 hover:text-white font-bold rounded-2xl transition-all border border-white/5 tracking-wide text-sm">
+                Annuleren
+            </a>
+        </div>
+
+        <!-- Veiligheidsbadge -->
+        <div id="security-badge" class="mt-10 inline-flex items-center px-6 py-3 rounded-2xl bg-slate-950/50 border border-white/5 shadow-xl status-pulse">
+            <div id="security-status" class="flex items-center text-[10px] font-black tracking-[0.15em]">
+                <span class="text-slate-500 uppercase">Controleren...</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURATIE - PAS HIER JE LINK AAN
+        // ==========================================
+        const targetURL = "http://mijn.host/cp/domains/koenkdr.nl/dns-settings/";
+        const redirectDelay = 5000; // 5 seconden
+        // ==========================================
+
+        const domainDisplay = document.getElementById('target-domain');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const directLink = document.getElementById('direct-link');
+        const securityStatus = document.getElementById('security-status');
+        const securityBadge = document.getElementById('security-badge');
+        const favicon = document.getElementById('favicon');
+
+        // Initialiseer de pagina met de targetURL
+        try {
+            const url = new URL(targetURL);
+            domainDisplay.innerText = url.hostname;
+            directLink.href = targetURL;
+
+            // HTTPS/HTTP Check & Favicon Update
+            if (url.protocol === 'https:') {
+                favicon.href = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>";
+                securityBadge.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+                securityStatus.innerHTML = `
+                    <span class="text-emerald-400 flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+                        </svg>
+                        VEILIGE VERBINDING
+                    </span>`;
+            } else {
+                favicon.href = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚠️</text></svg>";
+                securityBadge.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                securityStatus.innerHTML = `
+                    <span class="text-red-400 flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                        ONBEVEILIGDE LINK
+                    </span>`;
+            }
+        } catch (e) {
+            domainDisplay.innerText = "Ongeldige Link";
+        }
+
+        // Timer Logica
+        window.onload = () => {
+            let start = null;
+            
+            function step(timestamp) {
+                if (!start) start = timestamp;
+                const progress = timestamp - start;
+                const percentage = Math.min((progress / redirectDelay) * 100, 100);
+                
+                progressBar.style.width = percentage + '%';
+                progressText.innerText = Math.floor(percentage) + '%';
+                
+                if (progress < redirectDelay) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    window.location.href = targetURL;
+                }
+            }
+            
+            window.requestAnimationFrame(step);
+        };
+    </script>
 </body>
 </html>
