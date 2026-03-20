@@ -1,217 +1,222 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Verbinding maken...</title>
-    
-    <!-- Scripts & Fonts -->
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link id="favicon" rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>" />
 
     <style>
-        :root {
-            --bg-color: #020617;
-            --card-bg: rgba(15, 23, 42, 0.75);
-            --accent-1: #3b82f6;
-            --accent-2: #8b5cf6;
-            --accent-3: #ec4899;
+      :root {
+        --bg-color: #020617;
+        --card-bg: rgba(15, 23, 42, 0.75);
+        --accent-1: #3b82f6;
+        --accent-2: #8b5cf6;
+        --accent-3: #ec4899;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        color: #f8fafc;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 1.5rem;
+        overflow: hidden;
+      }
+
+      .mesh-gradient {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.2) 0px, transparent 55%), radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.2) 0px, transparent 55%), radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 55%), radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.15) 0px, transparent 55%);
+        animation: mesh-move 12s infinite alternate ease-in-out;
+      }
+
+      @keyframes mesh-move {
+        0% {
+          transform: scale(1) rotate(0deg);
         }
-
-        body {
-            background-color: var(--bg-color);
-            color: #f8fafc;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 1.5rem;
-            overflow: hidden;
+        50% {
+          transform: scale(1.1) rotate(2deg);
         }
-
-        .mesh-gradient {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.2) 0px, transparent 55%),
-                radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.2) 0px, transparent 55%),
-                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.15) 0px, transparent 55%),
-                radial-gradient(at 0% 100%, rgba(59, 130, 246, 0.15) 0px, transparent 55%);
-            animation: mesh-move 12s infinite alternate ease-in-out;
+        100% {
+          transform: scale(1) rotate(0deg);
         }
+      }
 
-        @keyframes mesh-move {
-            0% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.1) rotate(2deg); }
-            100% { transform: scale(1) rotate(0deg); }
+      .glass-card {
+        background: var(--card-bg);
+        backdrop-filter: blur(30px) saturate(190%);
+        -webkit-backdrop-filter: blur(30px) saturate(190%);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.6);
+        width: 100%;
+        max-width: 440px;
+        padding: 3.5rem 2rem;
+        border-radius: 3rem;
+        text-align: center;
+        position: relative;
+        z-index: 10;
+        animation: card-appear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      @keyframes card-appear {
+        from {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
         }
-
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(30px) saturate(190%);
-            -webkit-backdrop-filter: blur(30px) saturate(190%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.6);
-            width: 100%;
-            max-width: 440px;
-            padding: 3.5rem 2rem;
-            border-radius: 3rem;
-            text-align: center;
-            position: relative;
-            z-index: 10;
-            animation: card-appear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
         }
+      }
 
-        @keyframes card-appear {
-            from { opacity: 0; transform: translateY(20px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+      .domain-text {
+        background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shine 3s linear infinite;
+        filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.3));
+        word-wrap: break-word;
+        display: block;
+      }
+
+      @keyframes shine {
+        to {
+          background-position: 200% center;
         }
+      }
 
-        .domain-text {
-            background: linear-gradient(90deg, #60a5fa, #a78bfa, #f472b6, #60a5fa);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
-            filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.3));
-            word-wrap: break-word;
-            display: block;
-        }
+      .progress-container {
+        background: rgba(0, 0, 0, 0.4);
+        height: 10px;
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
 
-        @keyframes shine { to { background-position: 200% center; } }
+      .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+        transition: width 0.1s linear;
+      }
 
-        .progress-container {
-            background: rgba(0, 0, 0, 0.4);
-            height: 10px;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
-            transition: width 0.1s linear;
-        }
-
-        #error-state { display: none; }
+      #error-state {
+        display: none;
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <div class="mesh-gradient"></div>
 
-    <!-- Hoofd Layout (Redirect State) -->
     <div id="redirect-state" class="glass-card">
-        <div class="space-y-3 mb-8">
-            <p class="text-[11px] font-black uppercase tracking-[0.4em] text-slate-500">Bestemming</p>
-            <h2 id="target-domain" class="domain-text text-2xl font-extrabold">Laden...</h2>
-        </div>
+      <div class="space-y-3 mb-8">
+        <p class="text-[11px] font-black uppercase tracking-[0.4em] text-slate-500">Bestemming</p>
+        <h2 id="target-domain" class="domain-text text-2xl font-extrabold">Laden...</h2>
+      </div>
 
-        <div class="w-20 h-20 mx-auto mb-8 relative">
-            <div class="absolute inset-0 bg-blue-500/30 blur-2xl rounded-full"></div>
-            <div class="relative z-10 w-full h-full bg-slate-900/90 border border-white/20 rounded-[2rem] flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-            </div>
+      <div class="w-20 h-20 mx-auto mb-8 relative">
+        <div class="absolute inset-0 bg-blue-500/30 blur-2xl rounded-full"></div>
+        <div class="relative z-10 w-full h-full bg-slate-900/90 border border-white/20 rounded-[2rem] flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
         </div>
+      </div>
 
-        <div class="mb-10 text-left">
-            <div class="flex justify-between items-end mb-4 px-1">
-                <span id="status-label" class="text-[12px] font-black text-slate-400 uppercase tracking-widest">Verbinden...</span>
-                <span id="progress-text" class="text-sm font-black text-slate-200">0%</span>
-            </div>
-            <div class="progress-container">
-                <div id="progress-bar" class="progress-fill"></div>
-            </div>
+      <div class="mb-10 text-left">
+        <div class="flex justify-between items-end mb-4 px-1">
+          <span id="status-label" class="text-[12px] font-black text-slate-400 uppercase tracking-widest">Verbinden...</span>
+          <span id="progress-text" class="text-sm font-black text-slate-200">0%</span>
         </div>
+        <div class="progress-container">
+          <div id="progress-bar" class="progress-fill"></div>
+        </div>
+      </div>
 
-        <a id="direct-link" href="#" class="block w-full bg-blue-600 py-5 rounded-3xl text-white font-black text-xl hover:scale-105 transition-all">
-            Direct doorgaan
-        </a>
+      <a id="direct-link" href="#" class="block w-full bg-blue-600 py-5 rounded-3xl text-white font-black text-xl hover:scale-105 transition-all"> Direct doorgaan </a>
     </div>
 
-    <!-- Error Layout (Geen URL State) -->
     <div id="error-state" class="glass-card">
-        <div class="w-20 h-20 bg-red-500/10 border border-red-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-red-400">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-        </div>
-        <h2 class="text-2xl font-bold mb-4">Configuratie Fout</h2>
-        <p class="text-slate-400 mb-8">Er is geen geldige URL gevonden om naar door te sturen.</p>
-        <button onclick="history.back()" class="w-full py-4 bg-slate-800 rounded-2xl font-bold">Ga Terug</button>
+      <div class="w-20 h-20 bg-red-500/10 border border-red-500/20 rounded-3xl flex items-center justify-center mx-auto mb-6 text-red-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+      <h2 class="text-2xl font-bold mb-4">Configuratie Fout</h2>
+      <p class="text-slate-400 mb-8">Er is geen geldige URL gevonden om naar door te sturen.</p>
+      <button onclick="history.back()" class="w-full py-4 bg-slate-800 rounded-2xl font-bold">Ga Terug</button>
     </div>
 
     <script>
-        /**
-         * Deze logica haalt de URL op uit twee mogelijke bronnen:
-         * 1. Een globale variabele genaamd 'targetConfig' (ingevuld door het vak-bestand)
-         * 2. Een URL-parameter genaamd '?url='
-         */
-        const redirectDelay = 5000;
-        const urlParams = new URLSearchParams(window.location.search);
-        
-        // Check eerst of er een lokale config is, anders de URL param
-        const targetURL = (typeof targetConfig !== 'undefined' ? targetConfig.url : null) || urlParams.get('url');
+      const redirectDelay = 5000;
+      const urlParams = new URLSearchParams(window.location.search);
 
-        const ui = {
-            redirect: document.getElementById('redirect-state'),
-            error: document.getElementById('error-state'),
-            domain: document.getElementById('target-domain'),
-            progress: document.getElementById('progress-bar'),
-            progressText: document.getElementById('progress-text'),
-            link: document.getElementById('direct-link')
-        };
+      const targetURL = (typeof targetConfig !== "undefined" ? targetConfig.url : null) || urlParams.get("url");
 
-        function init() {
-            if (!targetURL) {
-                ui.redirect.style.display = 'none';
-                ui.error.style.display = 'block';
-                return;
-            }
+      const ui = {
+        redirect: document.getElementById("redirect-state"),
+        error: document.getElementById("error-state"),
+        domain: document.getElementById("target-domain"),
+        progress: document.getElementById("progress-bar"),
+        progressText: document.getElementById("progress-text"),
+        link: document.getElementById("direct-link"),
+      };
 
-            try {
-                const url = new URL(targetURL);
-                ui.domain.innerText = url.hostname;
-                ui.link.href = targetURL;
-                
-                startAnimation();
-            } catch (e) {
-                // Als het geen volledige URL is (bijv. een relatief pad), toon dan de tekst direct
-                ui.domain.innerText = targetURL;
-                ui.link.href = targetURL;
-                startAnimation();
-            }
+      function init() {
+        if (!targetURL) {
+          ui.redirect.style.display = "none";
+          ui.error.style.display = "block";
+          return;
         }
 
-        function startAnimation() {
-            let startTime = null;
+        try {
+          const url = new URL(targetURL);
+          ui.domain.innerText = url.hostname;
+          ui.link.href = targetURL;
 
-            function animate(timestamp) {
-                if (!startTime) startTime = timestamp;
-                const elapsed = timestamp - startTime;
-                const percentage = Math.min((elapsed / redirectDelay) * 100, 100);
+          startAnimation();
+        } catch (e) {
+          // Als het geen volledige URL is (bijv. een relatief pad), toon dan de tekst direct
+          ui.domain.innerText = targetURL;
+          ui.link.href = targetURL;
+          startAnimation();
+        }
+      }
 
-                ui.progress.style.width = percentage + '%';
-                ui.progressText.innerText = Math.floor(percentage) + '%';
+      function startAnimation() {
+        let startTime = null;
 
-                if (elapsed < redirectDelay) {
-                    requestAnimationFrame(animate);
-                } else {
-                    window.location.href = targetURL;
-                }
-            }
+        function animate(timestamp) {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const percentage = Math.min((elapsed / redirectDelay) * 100, 100);
+
+          ui.progress.style.width = percentage + "%";
+          ui.progressText.innerText = Math.floor(percentage) + "%";
+
+          if (elapsed < redirectDelay) {
             requestAnimationFrame(animate);
+          } else {
+            window.location.href = targetURL;
+          }
         }
+        requestAnimationFrame(animate);
+      }
 
-        window.onload = init;
+      window.onload = init;
     </script>
-</body>
+  </body>
 </html>
