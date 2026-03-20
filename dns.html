@@ -17,6 +17,7 @@
             --accent-1: #3b82f6;
             --accent-2: #8b5cf6;
             --accent-3: #ec4899;
+            --danger: #ef4444;
         }
 
         body {
@@ -28,8 +29,7 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow: hidden;
             padding: 1.5rem;
         }
 
@@ -60,12 +60,19 @@
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             width: 100%;
-            max-width: 440px;
-            padding: 3rem 2rem;
-            border-radius: 2.5rem;
+            max-width: 460px;
+            padding: 3.5rem 2.5rem;
+            border-radius: 3rem;
             text-align: center;
             position: relative;
             z-index: 10;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Gevaar-staat voor de kaart */
+        .glass-card.is-danger {
+            border-color: rgba(239, 68, 68, 0.3);
+            box-shadow: 0 0 60px -15px rgba(239, 68, 68, 0.2);
         }
 
         /* Geanimeerde domeinnaam */
@@ -86,11 +93,11 @@
             to { background-position: 200% center; }
         }
 
-        /* Progress Bar Container */
+        /* Progress Bar */
         .progress-container {
             background: rgba(0, 0, 0, 0.3);
-            height: 8px;
-            border-radius: 10px;
+            height: 10px;
+            border-radius: 20px;
             overflow: hidden;
             position: relative;
         }
@@ -99,7 +106,7 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
-            box-shadow: 0 0 15px var(--accent-1);
+            box-shadow: 0 0 20px var(--accent-1);
             transition: width 0.1s linear;
         }
 
@@ -110,7 +117,26 @@
 
         @keyframes float-y {
             0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-8px) scale(1.03); }
+            50% { transform: translateY(-10px) scale(1.05); }
+        }
+
+        /* Pulseffect voor Gevaar */
+        .danger-pulse {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: var(--danger);
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .is-danger .danger-pulse {
+            animation: ripple 2s infinite;
+        }
+
+        @keyframes ripple {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(2.5); opacity: 0; }
         }
 
         /* Knoppen */
@@ -121,8 +147,12 @@
         }
 
         .btn:hover {
-            transform: translateY(-3px);
+            transform: translateY(-4px);
             filter: brightness(1.1);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
         }
 
         /* Overlay / Pop-up */
@@ -130,16 +160,27 @@
             display: none;
             position: absolute;
             inset: 0;
-            background: rgba(2, 6, 23, 0.98);
+            background: rgba(2, 6, 23, 0.96);
             z-index: 50;
-            border-radius: 2.5rem;
-            padding: 2rem;
+            border-radius: 3rem;
+            padding: 2.5rem;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.5s ease;
+        }
+
+        .shake {
+            animation: shake-anim 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        @keyframes shake-anim {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
         }
     </style>
 </head>
@@ -147,69 +188,84 @@
 
     <div class="mesh-gradient" id="mesh-bg"></div>
 
-    <div class="glass-card overflow-hidden">
-        <!-- Veiligheid Pop-up (verschijnt na timer bij onveilige link) -->
+    <div id="main-card" class="glass-card overflow-hidden">
+        <!-- Veiligheid Pop-up -->
         <div id="safety-overlay" class="flex">
-            <div class="w-16 h-16 bg-red-500/20 rounded-full flex items-center justify-center mb-6 border border-red-500/30">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
+            <div class="relative mb-8">
+                <div class="danger-pulse"></div>
+                <div class="w-24 h-24 bg-red-500/20 rounded-full flex items-center justify-center border-4 border-red-500/40 relative z-10">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                </div>
             </div>
-            <h3 class="text-xl font-bold mb-2 text-white">Let op: Onbeveiligd</h3>
-            <p class="text-sm text-slate-400 mb-8 px-4 text-center leading-relaxed">De bestemming gebruikt geen HTTPS. Je verbinding is niet versleuteld.</p>
-            <button id="confirm-unsafe" class="btn w-full bg-red-600 py-4 rounded-xl text-white font-bold mb-3 shadow-lg shadow-red-600/20">
-                Ik begrijp het, ga door
-            </button>
-            <button onclick="history.back()" class="text-xs text-slate-500 hover:text-white transition-colors">
-                Terug naar veiligheid
-            </button>
+            
+            <h3 class="text-2xl font-black mb-3 text-white tracking-tight">VEILIGHEIDSRISICO</h3>
+            <p class="text-sm text-slate-400 mb-10 px-6 text-center leading-relaxed font-medium">
+                De website waar je naartoe gaat is <span class="text-red-400 font-bold underline">niet beveiligd</span> (HTTP). Hackers kunnen je gegevens mogelijk meelezen.
+            </p>
+            
+            <div class="w-full space-y-4">
+                <button onclick="history.back()" class="btn w-full bg-white text-slate-900 py-5 rounded-2xl font-black text-lg shadow-xl hover:bg-slate-100 uppercase tracking-wider">
+                    🛡️ Terug naar veiligheid
+                </button>
+                
+                <button id="confirm-unsafe" class="btn w-full bg-transparent border-2 border-red-500/50 py-4 rounded-xl text-red-400 font-bold hover:bg-red-500/10 transition-all text-sm">
+                    Ik begrijp het risico, ga toch door
+                </button>
+            </div>
         </div>
 
         <!-- Tekst sectie -->
-        <div class="space-y-2 mb-8">
-            <p id="label-text" class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Je gaat naar</p>
-            <h2 id="target-domain" class="domain-text text-3xl font-extrabold truncate px-2">Laden...</h2>
+        <div class="space-y-2 mb-10">
+            <p id="label-text" class="text-[11px] font-black uppercase tracking-[0.4em] text-slate-500 opacity-80">Je gaat naar</p>
+            <h2 id="target-domain" class="domain-text text-4xl font-black truncate px-2 tracking-tight">Laden...</h2>
         </div>
 
         <!-- Icoon sectie -->
-        <div id="icon-wrapper" class="floating-icon w-16 h-16 mx-auto mb-8 relative">
-            <div id="icon-bg" class="absolute inset-0 bg-blue-500/20 blur-xl rounded-full"></div>
-            <div id="icon-container" class="relative z-10 w-full h-full bg-slate-900/80 border border-white/10 rounded-2xl flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" id="main-svg" class="w-8 h-8 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        <div id="icon-wrapper" class="floating-icon w-20 h-20 mx-auto mb-10 relative">
+            <div id="icon-bg" class="absolute inset-0 bg-blue-500/30 blur-2xl rounded-full"></div>
+            <div id="icon-container" class="relative z-10 w-full h-full bg-slate-900/90 border-2 border-white/10 rounded-3xl flex items-center justify-center shadow-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" id="main-svg" class="w-10 h-10 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
             </div>
         </div>
 
         <!-- Voortgang sectie -->
-        <div class="mb-10">
-            <div class="flex justify-between items-end mb-3">
-                <div class="flex items-center space-x-2">
-                    <span id="status-dot" class="flex h-2 w-2 rounded-full bg-blue-500 animate-pulse"></span>
-                    <span id="status-label" class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Verbinding maken</span>
+        <div class="mb-12">
+            <div class="flex justify-between items-end mb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="relative flex h-3 w-3">
+                        <span id="status-pulse" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span id="status-dot" class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+                    </div>
+                    <span id="status-label" class="text-[12px] font-extrabold text-slate-400 uppercase tracking-[0.15em]">Laden...</span>
                 </div>
-                <span id="progress-text" class="text-xs font-mono font-bold text-slate-300">0%</span>
+                <span id="progress-text" class="text-sm font-black font-mono text-white">0%</span>
             </div>
-            <div class="progress-container">
+            <div class="progress-container shadow-inner">
                 <div id="progress-bar" class="progress-fill"></div>
             </div>
         </div>
 
         <!-- Acties -->
-        <div class="space-y-3">
-            <a id="direct-link" href="#" class="btn block w-full bg-blue-600 py-4 rounded-2xl shadow-[0_0_30px_-5px_rgba(37,99,235,0.3)]">
-                <span class="block text-white font-extrabold text-lg">Ga nu verder</span>
+        <div class="space-y-4">
+            <a id="direct-link" href="#" class="btn group block w-full bg-blue-600 p-1 rounded-2xl shadow-lg shadow-blue-900/40">
+                <div class="bg-blue-600 py-4 rounded-[14px] border-t border-white/20">
+                    <span class="block text-white font-black text-xl tracking-tight">Direct doorgaan</span>
+                </div>
             </a>
             
-            <button onclick="history.back()" class="btn block w-full py-3 text-slate-500 hover:text-white font-bold text-xs bg-white/5 rounded-xl border border-white/5">
+            <button onclick="history.back()" class="btn block w-full py-4 text-slate-400 hover:text-white font-black text-xs uppercase tracking-widest bg-white/5 rounded-xl border border-white/5 hover:bg-white/10">
                 Annuleren
             </button>
         </div>
 
         <!-- Veiligheids Status -->
-        <div id="security-badge" class="status-badge mt-8 py-2 px-5 rounded-full inline-flex items-center space-x-2">
-            <div id="security-icon" class="w-1.5 h-1.5 rounded-full bg-slate-500"></div>
-            <p id="security-text" class="text-[8px] font-black tracking-[0.2em] text-slate-500 uppercase">Controleren...</p>
+        <div id="security-badge" class="mt-10 py-2.5 px-6 rounded-full inline-flex items-center space-x-3 bg-slate-950/50 border border-white/5 shadow-sm">
+            <div id="security-icon" class="w-2 h-2 rounded-full bg-slate-500"></div>
+            <p id="security-text" class="text-[9px] font-black tracking-[0.25em] text-slate-400 uppercase">Beveiliging controleren</p>
         </div>
     </div>
 
@@ -218,21 +274,22 @@
         // CONFIGURATIE - PAS HIER JE LINK AAN
         // ==========================================
         const targetURL = "https://mijn.host/cp/domains/koenkdr.nl/dns-settings/"; 
-        const redirectDelay = 5000;
+        const redirectDelay = 4500;
         // ==========================================
 
         const elements = {
+            card: document.getElementById('main-card'),
             domain: document.getElementById('target-domain'),
             progress: document.getElementById('progress-bar'),
             text: document.getElementById('progress-text'),
             link: document.getElementById('direct-link'),
-            badge: document.getElementById('security-badge'),
             badgeText: document.getElementById('security-text'),
             badgeIcon: document.getElementById('security-icon'),
             label: document.getElementById('label-text'),
             mainIcon: document.getElementById('main-svg'),
             iconBg: document.getElementById('icon-bg'),
             statusDot: document.getElementById('status-dot'),
+            statusPulse: document.getElementById('status-pulse'),
             statusLabel: document.getElementById('status-label'),
             favicon: document.getElementById('favicon'),
             mesh: document.getElementById('mesh-bg'),
@@ -248,35 +305,30 @@
             const url = new URL(targetURL);
             elements.domain.innerText = url.hostname;
             elements.link.href = targetURL;
-
-            // Dynamische titel voor het tabblad aanpassen
             document.title = "Je wordt doorgestuurd naar: " + url.hostname;
 
             const isInternal = url.hostname.includes('koenkdr.nl');
             isUnsafe = url.protocol !== 'https:';
 
-            // Thema styling op basis van domein
             if (isInternal) {
                 elements.label.innerText = "Interne bestemming";
                 elements.domain.classList.add('domain-text-internal');
-                elements.link.style.background = "linear-gradient(135deg, #d97706, #b45309)";
-                elements.mainIcon.classList.replace('text-blue-400', 'text-amber-400');
-                elements.iconBg.classList.replace('bg-blue-500/20', 'bg-amber-500/20');
                 elements.statusDot.classList.replace('bg-blue-500', 'bg-amber-500');
+                elements.statusPulse.classList.replace('bg-blue-400', 'bg-amber-400');
                 elements.progress.style.background = "linear-gradient(90deg, #f59e0b, #fbbf24)";
-                elements.mesh.style.background = `radial-gradient(at 0% 0%, rgba(245, 158, 11, 0.1) 0px, transparent 50%), radial-gradient(at 100% 100%, rgba(180, 83, 9, 0.1) 0px, transparent 50%)`;
+                elements.progress.style.boxShadow = "0 0 20px #f59e0b";
             }
 
-            // Veiligheidsindicator badge onderaan
             if (!isUnsafe) {
                 elements.badgeIcon.classList.replace('bg-slate-500', 'bg-emerald-500');
                 elements.badgeText.classList.replace('text-slate-500', 'text-emerald-500');
-                elements.badgeText.innerText = "Veilige Verbinding";
+                elements.badgeText.innerText = "Veilige Verbinding (HTTPS)";
                 elements.favicon.href = `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${isInternal ? '🏠' : '🛡️'}</text></svg>`;
             } else {
                 elements.badgeIcon.classList.replace('bg-slate-500', 'bg-red-500');
-                elements.badgeText.classList.replace('text-slate-500', 'text-red-500');
-                elements.badgeText.innerText = "Onbeveiligde Link";
+                elements.badgeText.classList.replace('text-slate-400', 'text-red-500');
+                elements.badgeText.innerText = "Onbeveiligde Verbinding";
+                elements.badgeText.classList.add('animate-pulse');
                 elements.favicon.href = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚠️</text></svg>";
             }
 
@@ -285,8 +337,8 @@
             document.title = "Fout: Ongeldige link";
         }
 
-        // De universele redirect functie
         function startRedirect() {
+            elements.statusLabel.innerText = "Analyseren";
             function step(timestamp) {
                 if (!startTime) startTime = timestamp;
                 const progress = timestamp - startTime;
@@ -298,7 +350,6 @@
                 if (progress < redirectDelay) {
                     animationFrame = window.requestAnimationFrame(step);
                 } else {
-                    // Timer is klaar
                     if (isUnsafe) {
                         showSafetyWarning();
                     } else {
@@ -310,24 +361,22 @@
         }
 
         function showSafetyWarning() {
-            elements.statusLabel.innerText = "Actie vereist";
-            elements.statusDot.classList.add('bg-red-500');
-            elements.statusDot.classList.remove('bg-blue-500', 'bg-amber-500');
+            elements.card.classList.add('is-danger', 'shake');
+            elements.statusLabel.innerText = "Gevaar gedetecteerd";
+            elements.statusDot.classList.replace('bg-blue-500', 'bg-red-500');
+            elements.statusPulse.classList.replace('bg-blue-400', 'bg-red-400');
             
             elements.overlay.style.display = 'flex';
             setTimeout(() => {
                 elements.overlay.style.opacity = '1';
-            }, 10);
+            }, 50);
         }
 
         elements.confirmBtn.onclick = () => {
             window.location.href = targetURL;
         };
 
-        window.onload = () => {
-            // Start de timer altijd direct
-            startRedirect();
-        };
+        window.onload = startRedirect;
     </script>
 </body>
 </html>
