@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      const mijnBestemming = "https://sgdc.zportal.nl";
+
+      const centraleLayout = "/src/template-link.html";
+
+      window.location.href = centraleLayout + "?url=" + encodeURIComponent(mijnBestemming);
+    </script>
+  </head>
+  <body style="background: #020617">
+    <p style="color: white; font-family: sans-serif; text-align: center; margin-top: 50px">Je wordt doorgestuurd... <a href="#" id="backup-link" style="color: #3b82f6">Klik hier</a> als er niets gebeurt.</p>
+    <script>
+      document.getElementById("backup-link").href = mijnBestemming;
+    </script>
+  </body>
+</html>
