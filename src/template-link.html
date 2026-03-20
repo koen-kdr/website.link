@@ -150,9 +150,16 @@
     </div>
 
     <script>
+        /**
+         * Deze logica haalt de URL op uit twee mogelijke bronnen:
+         * 1. Een globale variabele genaamd 'targetConfig' (ingevuld door het vak-bestand)
+         * 2. Een URL-parameter genaamd '?url='
+         */
         const redirectDelay = 5000;
         const urlParams = new URLSearchParams(window.location.search);
-        const targetURL = urlParams.get('url');
+        
+        // Check eerst of er een lokale config is, anders de URL param
+        const targetURL = (typeof targetConfig !== 'undefined' ? targetConfig.url : null) || urlParams.get('url');
 
         const ui = {
             redirect: document.getElementById('redirect-state'),
@@ -164,7 +171,6 @@
         };
 
         function init() {
-            // Check of er een URL in de parameter staat
             if (!targetURL) {
                 ui.redirect.style.display = 'none';
                 ui.error.style.display = 'block';
@@ -178,8 +184,10 @@
                 
                 startAnimation();
             } catch (e) {
-                ui.redirect.style.display = 'none';
-                ui.error.style.display = 'block';
+                // Als het geen volledige URL is (bijv. een relatief pad), toon dan de tekst direct
+                ui.domain.innerText = targetURL;
+                ui.link.href = targetURL;
+                startAnimation();
             }
         }
 
