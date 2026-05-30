@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <title>Doorsturen...</title>
+    <script>
+        window.location.href = "https://example.com/new-page.html";
+    </script>
+</head>
+<body>
+</body>
+</html>
