@@ -3,7 +3,7 @@
 <head>
     <title>Doorsturen...</title>
     <script>
-        window.location.href = "https://example.com/new-page.html";
+        window.location.href = "";
     </script>
 </head>
 <body>
